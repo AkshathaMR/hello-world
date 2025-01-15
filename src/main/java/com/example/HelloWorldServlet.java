@@ -25,6 +25,6 @@ public class HelloWorldServlet extends HttpServlet {
         response.setStatus(HttpServletResponse.SC_OK);
 
         // Write the response body (Hello World message)
-        response.getWriter().write("Hello World war");
+        response.getWriter().write("Hello World!!");
     }
 }
