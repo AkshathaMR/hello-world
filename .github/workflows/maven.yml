@@ -28,7 +28,25 @@ jobs:
         run: |
           chmod +x ./env-setup.sh
           ./env-setup.sh  # This sets up Java, Maven, etc.
+     - name: Cache Maven dependencies
+        uses: actions/cache@v3
+        with:
+          path: ~/.m2
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          restore-keys: 
 
+      - name: Configure Maven settings
+        run: |
+          mkdir -p ~/.m2
+          echo "<settings>
+                  <servers>
+                    <server>
+                      <id>central</id>
+                      <username>${{ secrets.ARTIFACTORY_USERNAME }}</username>
+                      <password>${{ secrets.ARTIFACTORY_API_KEY }}</password>
+                    </server>
+                  </servers>
+                </settings>" > ~/.m2/settings.xml
       - name: Build with Maven
         run: mvn clean install -DskipTests
         if: ${{ github.event_name != 'pull_request' }}  # Only run on push events, skip for PR
