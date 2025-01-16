@@ -12,7 +12,7 @@
      <repository>
         <id>akshatha-helloworld</id>
         <name>akshatha-helloworld-libs-release</name>
-        <url>http://3.110.135.73:8082/artifactory/akshatha-helloworld-libs-release/</url>
+        <url>http://13.203.157.8:8082/artifactory/akshatha-helloworld-libs-release/</url>
      </repository>
   </distributionManagement>
     <dependencies>
