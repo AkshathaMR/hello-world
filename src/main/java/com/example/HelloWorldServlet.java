@@ -4,15 +4,12 @@ import javax.servlet.*;
 import javax.servlet.http.*;
 import java.io.IOException;
 
-@WebServlet("/hello")
-public class HelloWorldServlet extends HttpServlet {
-    private static final long serialVersionUID = 1L;
 
+public class HelloWorldServlet extends HttpServlet {
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         response.setContentType("text/html");
-        response.getWriter().println("<h1>Hello, World!</h1>");
+        response.getWriter().write("<h1>Hello, World!</h1>");
     }
 }
 // public class HelloWorldServlet extends HttpServlet {
