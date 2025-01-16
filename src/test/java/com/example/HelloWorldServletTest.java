@@ -16,77 +16,47 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class HelloWorldServletTest {
 
+    @Mock private HttpServletRequest request;
+    @Mock private HttpServletResponse response;
+    @Mock private ServletConfig servletConfig;
+    @Mock private ServletContext servletContext;
+    @Mock private PrintWriter writer;
+
     private HelloWorldServlet servlet;
-    private HttpServletRequest request;
-    private HttpServletResponse response;
-    private StringWriter stringWriter;
-    private PrintWriter printWriter;
 
     @BeforeEach
-    void setUp() {
-        servlet = new HelloWorldServlet(); // Create a new instance of the servlet
-        request = mock(HttpServletRequest.class); // Mock HttpServletRequest
-        response = mock(HttpServletResponse.class); // Mock HttpServletResponse
-        
-        stringWriter = new StringWriter();
-        printWriter = new PrintWriter(stringWriter);
-        
-        // Mock the response.getWriter() method to return our custom PrintWriter
-        when(response.getWriter()).thenReturn(printWriter);
+    void setUp() throws Exception {
+        MockitoAnnotations.openMocks(this);
+        servlet = new HelloWorldServlet();
+        when(response.getWriter()).thenReturn(writer);
     }
 
+    // Test 1: Simple HelloWorldServlet Response
     @Test
-    void testDoGet() throws IOException {
-        // Act: Call the doGet method on the servlet
+    void testServletResponse() throws Exception {
         servlet.doGet(request, response);
-        
-        // Flush the writer to ensure all content is written
-        printWriter.flush();
-        
-        // Assert: Verify the output is what we expect
-        assertEquals("<h1>Hello, World!</h1>", stringWriter.toString().trim());
+        verify(writer).write("Hello World");
     }
-    // @Mock private HttpServletRequest request;
-    // @Mock private HttpServletResponse response;
-    // @Mock private ServletConfig servletConfig;
-    // @Mock private ServletContext servletContext;
-    // @Mock private PrintWriter writer;
 
-    // private HelloWorldServlet servlet;
+    // Test 2: Check HTTP Status Code
+    @Test
+    void testHttpStatusCode() throws Exception {
+        servlet.doGet(request, response);
+        verify(response).setStatus(HttpServletResponse.SC_OK);
+    }
 
-    // @BeforeEach
-    // void setUp() throws Exception {
-    //     MockitoAnnotations.openMocks(this);
-    //     servlet = new HelloWorldServlet();
-    //     when(response.getWriter()).thenReturn(writer);
-    // }
+    // Test 3: Check Content-Type header
+    @Test
+    void testContentType() throws Exception {
+        servlet.doGet(request, response);
+        verify(response).setContentType("text/html");
+    }
 
-    // // Test 1: Simple HelloWorldServlet Response
-    // @Test
-    // void testServletResponse() throws Exception {
-    //     servlet.doGet(request, response);
-    //     verify(writer).write("Hello World");
-    // }
-
-    // // Test 2: Check HTTP Status Code
-    // @Test
-    // void testHttpStatusCode() throws Exception {
-    //     servlet.doGet(request, response);
-    //     verify(response).setStatus(HttpServletResponse.SC_OK);
-    // }
-
-    // // Test 3: Check Content-Type header
-    // @Test
-    // void testContentType() throws Exception {
-    //     servlet.doGet(request, response);
-    //     verify(response).setContentType("text/html");
-    // }
-
-    // // Test 4: Test Error Handling - Simulating Error (e.g., request error)
-    // @Test
-    // void testErrorHandling() throws Exception {
-    //     when(request.getParameter("error")).thenReturn("true"); // simulate an error
-    //     servlet.doGet(request, response);
-    //     verify(response).sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid request parameter");
-    // }
+    // Test 4: Test Error Handling - Simulating Error (e.g., request error)
+    @Test
+    void testErrorHandling() throws Exception {
+        when(request.getParameter("error")).thenReturn("true"); // simulate an error
+        servlet.doGet(request, response);
+        verify(response).sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid request parameter");
+    }
 }
