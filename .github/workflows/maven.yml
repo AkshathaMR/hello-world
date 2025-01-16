@@ -91,6 +91,8 @@ jobs:
         run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=akshatha111_hello-word11
 
   upload_artifact:
+    # This job will also run on the self-hosted runner with the "staging" label.
+    # Ensure the staging runner has the "staging" label.
     runs-on: [self-hosted, staging]  # Self-hosted EC2 with Tomcat installed (Staging)
     needs: build_and_test
     if: ${{ needs.build_and_test.result == 'success' }}  # Run only if build and test succeed
@@ -98,12 +100,18 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Upload Artifact to JFrog Artifactory
+      - name: Configure Maven settings
         run: |
           echo "Uploading artifact to JFrog Artifactory..."
-          curl -u "${{ secrets.JFROG_USERNAME }}:${{ secrets.JFROG_API_KEY }}" \
-               -T target/helloworld.war \
-               "https://jfrog.example.com/artifactory/my-repo/my-helloworld-${{ needs.build_and_test.outputs.version }}.war"
+          mkdir -p ~/.m2
+          echo "<settings>
+                  <servers>
+                    <server>
+                      <id>git-hub-actions</id>
+                      <username>${{ secrets.JFROG_USERNAME }}</username>
+                      <password>${{ secrets.JFROG_API_KEY }}</password>
+                    </server>
+                  </servers>
+                </settings>" > ~/.m2/settings.xml
 
-  # Matrix Job: Deployment to Staging and Production
- 
+          mvn clean deploy   
