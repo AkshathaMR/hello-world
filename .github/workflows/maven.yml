@@ -102,7 +102,7 @@ jobs:
         run: |
           echo "Uploading artifact to JFrog Artifactory..."
           curl -u "${{ secrets.JFROG_USERNAME }}:${{ secrets.JFROG_API_KEY }}" \
-               -T target/my-helloworld.war \
+               -T target/helloworld.war \
                "https://jfrog.example.com/artifactory/my-repo/my-helloworld-${{ needs.build_and_test.outputs.version }}.war"
 
   # Matrix Job: Deployment to Staging and Production
