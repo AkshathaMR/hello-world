@@ -8,13 +8,13 @@
     <artifactId>my-helloworld</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>war</packaging>
-<distributionManagement>
-    <repository>
-        <id>central</id>
-        <name>ip-172-31-8-250-releases</name>
-        <url>http://13.201.76.68:8081/artifactory/hello-world-libs-release</url>
-    </repository>
-</distributionManagement>
+  <distributionManagement>
+     <repository>
+        <id>akshatha-helloworld</id>
+        <name>akshatha-helloworld-libs-release</name>
+        <url>http://15.206.187.245:8082/artifactory/akshatha-helloworld-libs-release/</url>
+     </repository>
+  </distributionManagement>
     <dependencies>
         <!-- Servlet API Dependency -->
         <dependency>
