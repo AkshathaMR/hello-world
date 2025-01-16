@@ -16,23 +16,34 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class HelloWorldServletTest {
 
-      @Test
-    void testDoGet() throws Exception {
-        // Arrange
-        HelloWorldServlet servlet = new HelloWorldServlet();
-        HttpServletRequest request = mock(HttpServletRequest.class);
-        HttpServletResponse response = mock(HttpServletResponse.class);
+    private HelloWorldServlet servlet;
+    private HttpServletRequest request;
+    private HttpServletResponse response;
+    private StringWriter stringWriter;
+    private PrintWriter printWriter;
 
-        StringWriter stringWriter = new StringWriter();
-        PrintWriter writer = new PrintWriter(stringWriter);
+    @BeforeEach
+    void setUp() {
+        servlet = new HelloWorldServlet(); // Create a new instance of the servlet
+        request = mock(HttpServletRequest.class); // Mock HttpServletRequest
+        response = mock(HttpServletResponse.class); // Mock HttpServletResponse
+        
+        stringWriter = new StringWriter();
+        printWriter = new PrintWriter(stringWriter);
+        
+        // Mock the response.getWriter() method to return our custom PrintWriter
+        when(response.getWriter()).thenReturn(printWriter);
+    }
 
-        when(response.getWriter()).thenReturn(writer);
-
-        // Act
+    @Test
+    void testDoGet() throws IOException {
+        // Act: Call the doGet method on the servlet
         servlet.doGet(request, response);
-
-        // Assert
-        writer.flush(); // Ensure all output is written
+        
+        // Flush the writer to ensure all content is written
+        printWriter.flush();
+        
+        // Assert: Verify the output is what we expect
         assertEquals("<h1>Hello, World!</h1>", stringWriter.toString().trim());
     }
     // @Mock private HttpServletRequest request;
