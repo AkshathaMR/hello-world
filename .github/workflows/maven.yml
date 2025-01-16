@@ -40,7 +40,7 @@ jobs:
           echo "<settings>
                   <servers>
                     <server>
-                      <id>central</id>
+                      <id>akshatha-helloworld</id>
                       <username>${{ secrets.JFROG_USERNAME }}</username>
                       <password>${{ secrets.JFROG_API_KEY }}</password>
                     </server>
@@ -107,7 +107,7 @@ jobs:
           echo "<settings>
                   <servers>
                     <server>
-                      <id>git-hub-actions</id>
+                      <id>akshatha-helloworld</id>
                       <username>${{ secrets.JFROG_USERNAME }}</username>
                       <password>${{ secrets.JFROG_API_KEY }}</password>
                     </server>
