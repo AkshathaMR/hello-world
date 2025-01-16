@@ -28,7 +28,7 @@ jobs:
         run: |
           chmod +x ./env-setup.sh
           ./env-setup.sh  # This sets up Java, Maven, etc.
-     - name: Cache Maven dependencies
+      - name: Cache Maven dependencies
         uses: actions/cache@v3
         with:
           path: ~/.m2
@@ -88,7 +88,7 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=akshatha111_hello-word11
 
-   upload_artifact:
+  upload_artifact:
     # This job will also run on the self-hosted runner with the "staging" label.
     # Ensure the staging runner has the "staging" label.
     runs-on: [self-hosted, staging]  # Self-hosted EC2 with Tomcat installed (Staging)
@@ -114,12 +114,12 @@ jobs:
     needs: [sonar_analysis, upload_artifact]  # Waits for SonarQube and Artifactory jobs to complete
     strategy:
       matrix:
-        environment: [staging, staging-1]  # Deploy to both staging and production environments
+        environment: [staging, production]  # Deploy to both staging and production environments
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Deploy to Tomcat (Staging/staging-1)
+      - name: Deploy to Tomcat (Staging/Production)
         run: |
           echo "Deploying to ${matrix.environment}..."
 
