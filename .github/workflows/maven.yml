@@ -3,10 +3,10 @@ name: Java CI with Maven, SonarQube, and Production Deployment
 on:
   push:
     branches:
-      - main
+      - feature-aksmr
   pull_request:
     branches:
-      - main
+      - feature-aksmr
   workflow_dispatch:
     inputs:
       deploy:
@@ -136,7 +136,7 @@ jobs:
           if [ "${{ matrix.environment }}" == "staging" ]; then
             # Deployment to the staging environment          
             cd /home/ubuntu/apache-tomcat-10.1.34/webapps
-            curl -L -u "${{ secrets.JFROG1_USERNAME }}:${{ secrets.JFROG1_API_KEY }}" -O "http://13.203.157.8:8082/artifactory/akshatha-helloworld-libs-release/com/example/my-helloworld/1.0-0/my-helloworld-1.0-0.war"
+            curl -L -u "${{ secrets.JFROG1_USERNAME }}:${{ secrets.JFROG1_API_KEY }}" -O "http://13.126.62.82:8082/artifactory/akshatha-helloworld-libs-release/com/example/my-helloworld/1.0-0/my-helloworld-1.0-0.war"
 
             # sh /home/ubuntu/apache-tomcat-10.1.34/bin/shutdown.sh"
             # sh /home/ubuntu/apache-tomcat-10.1.34/bin/startup.sh"
@@ -144,7 +144,7 @@ jobs:
             # Deployment to the production environment (only triggered on master branch)
             if [[ $GITHUB_REF == "refs/heads/main" ]]; then
             cd /home/ubuntu/apache-tomcat-10.1.34/webapps
-            curl -L -u "${{ secrets.JFROG1_USERNAME }}:${{ secrets.JFROG1_API_KEY }}" -O "http://13.203.157.8:8082/artifactory/akshatha-helloworld-libs-release/com/example/my-helloworld/1.0-0/my-helloworld-1.0-0.war"
+            curl -L -u "${{ secrets.JFROG1_USERNAME }}:${{ secrets.JFROG1_API_KEY }}" -O "http://13.126.62.82:8082/artifactory/akshatha-helloworld-libs-release/com/example/my-helloworld/1.0-0/my-helloworld-1.0-0.war"
 
             # sh /home/ubuntu/apache-tomcat-10.1.34/bin/shutdown.sh"
             # sh /home/ubuntu/apache-tomcat-10.1.34/bin/startup.sh"
