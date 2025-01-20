@@ -6,14 +6,16 @@
     <artifactId>hello-world-webapp</artifactId>
     <version>1.0.0</version>
     <packaging>war</packaging>
- <distributionManagement>
-     <repository>
-        <id>akshatha-helloworld</id>
-        <name>akshatha-helloworld-libs-release</name>
-        <url>http://13.126.62.82:8082/artifactory/akshatha-helloworld-libs-release/</url>
-     </repository>
-  </distributionManagement>
-   <dependencies>
+
+    <distributionManagement>
+        <repository>
+            <id>akshatha-helloworld</id>
+            <name>akshatha-helloworld-libs-release</name>
+            <url>http://13.126.62.82:8082/artifactory/akshatha-helloworld-libs-release/</url>
+        </repository>
+    </distributionManagement>
+
+    <dependencies>
         <!-- Servlet API -->
         <dependency>
             <groupId>javax.servlet</groupId>
@@ -29,27 +31,6 @@
             <version>5.10.0</version>
             <scope>test</scope>
         </dependency>
-
-        <!-- JaCoCo Plugin -->
-        <plugin>
-            <groupId>org.jacoco</groupId>
-            <artifactId>jacoco-maven-plugin</artifactId>
-            <version>0.8.10</version>
-            <executions>
-                <execution>
-                    <goals>
-                        <goal>prepare-agent</goal>
-                    </goals>
-                </execution>
-                <execution>
-                    <id>report</id>
-                    <phase>verify</phase>
-                    <goals>
-                        <goal>report</goal>
-                    </goals>
-                </execution>
-            </executions>
-        </plugin>
     </dependencies>
 
     <build>
@@ -64,11 +45,32 @@
                     <target>17</target>
                 </configuration>
             </plugin>
+
+            <!-- JaCoCo Plugin -->
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <version>0.8.10</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>prepare-agent</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>report</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>report</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
     </build>
-  <properties>
+
+    <properties>
         <sonar.organization>akshatha111</sonar.organization>
         <sonar.host.url>https://sonarcloud.io</sonar.host.url>
     </properties>
 </project>
-
